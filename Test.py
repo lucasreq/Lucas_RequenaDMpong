@@ -1,5 +1,7 @@
 from tkinter import *
 from random import *
+import schedule
+import time
    
 
 def Parameters_bouton():
@@ -35,6 +37,14 @@ class Window(Tk):
 
         self.new = Button(self,text="Balle",command=Parameters_bouton)
         self.new.grid(column=2,row=4)
+
+        self.can.create_line(width/2,0, width/2, height, fill="white",dash=(2,2), width=10)
+
+        self.can.create_line(4,0,4,height+5, fill="blue", width=4)
+        self.can.create_line(width,0,width,height+5, fill="red", width=4)
+        
+        
+        
     
     def new_game(self):
         if self.flag == 0 :
@@ -56,10 +66,10 @@ class Pad:
         self.Pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+60,fill=Parameters_fill()) 
         self.Pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+60,fill=Parameters_fill())
         
-        canvas.bind_all("<Up>",self.move_up1)
-        canvas.bind_all("<Down>", self.move_down1)
-        canvas.bind_all("<z>",self.move_up2)
-        canvas.bind_all("<s>", self.move_down2)
+        canvas.bind_all("<Up>",self.move_up2)
+        canvas.bind_all("<Down>", self.move_down2)
+        canvas.bind_all("<z>",self.move_up1)
+        canvas.bind_all("<s>", self.move_down1)
 
         
         self.dy2 = 25
@@ -104,7 +114,7 @@ class Ball:
         self.height = canvas.winfo_height()
         self.width = canvas.winfo_width()
         self.flag = flag
-        self.x1,self.y1 = self.width/2,self.height/2
+        self.x1,self.y1 = self.width/2.1,self.height/2
         self.dx,self.dy = 30,30
         self.Ball = canvas.create_oval(self.x1, self.y1, self.x1+20, self.y1+20, width=2, fill=Parameters_fill())
         self.pointA, self.pointB = 0,0
@@ -161,14 +171,16 @@ class Ball:
 class Bonus:
     def __init__(self,canvas,width=400, height=400):
         self.canvas = canvas
-        self.height = canvas.winfo_height()
-        self.width = canvas.winfo_width()
-        self.pointA, self.pointB = 0,0
+        self.x1,self.y1 = self.width/2,self.height/2
+        self.dx,self.dy = 30,30
         self.px = randrange(5, 400)
         self.py = randrange(5, 400)
     
     def summon(self):
-        self.Bonus = canvas.create_oval(self.x1, self.y1, self.x1+15, self.y1+15, width=2, fill=green)
+        self.Bonus = canvas.create_oval(self.x1, self.y1, self.x1+15, self.y1+15, width=2, fill="green")
+
+    schedule.every(10).seconds.do(summon)
+        
         
 
 if __name__ == "__main__":

@@ -85,6 +85,18 @@ class Pad:
             self.y2=self.y2+10
             self.canvas.coords(self.Pad2,self.x2,self.y2,self.x2+15,self.y2+60)
 
+    # def ia (self):
+    #     self.y2=self.y2 + self.dy2
+    #     if self.y2+60 > self.height-10 :
+    #         self.dy2=-50
+            
+        # if self.y2 < 5 :
+        #     self.dy2=50
+            
+        # self.canvas.coords(self.Pad2,self.x2,self.y2,self.x2+15,self.y2+60)
+        # if self.flag > 0:
+        #     self.canvas.after(70,self.ia)
+
 class Ball:
     def __init__(self,canvas,pad,flag):
         self.canvas = canvas

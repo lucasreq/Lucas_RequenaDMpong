@@ -136,7 +136,6 @@ class Ball:
                 self.pointB = self.pointB+1
                 self.ready()
             
-        
             if self.x1+20 > self.width:
                 self.starter=0
                 self.pointA = self.pointA+1

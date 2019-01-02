@@ -13,44 +13,38 @@ class Fenetre(Tk):
         self.new = Button(self,text="New Game",command=self.new_game)
         self.new.grid(column=0,row=0,sticky="NW")
 
-        self.new = Button(self,text="Parametres",command=self.Parameters)
-        self.new.grid(column=2,row=0)
-
         self.can = Canvas(self,width=width,height=height,bg="black")
         self.can.grid(column=0,row=1,sticky="SW",columnspan=5)
 
-
-    def Parameters(self):
-
-        def Parameters_pad1(self):
-
-                self.color = ["red","green","blue","white","yellow","purple"]
-                self.color_al = self.choice(color)
-                print (color_al)
-                return self.color_al
-
-        def Parameters_pad2(self):
-
-                self.color = ["red","green","blue","white","yellow","purple"]
-                self.color_al = self.choice(color)
-                print (color_al)
-                return self.color_al
-    
-        def Parameters_ball(self):
-           
-                self.color = ["red","green","blue","white","yellow","purple"]
-                self.color_al = self.choice(color)
-                print (color_al)
-                return self.color_al
-        
-        self.new= Button(self,text="Couleurs joueur1",command=Parameters_pad1)
+        self.new = Button(self,text="Couleurs joueur1",command=self.Parameter_pad1)
         self.new.grid(column=1,row=4,sticky="NW")
 
-        self.new= Button(self,text="Couleurs joueur2",command=Parameters_pad2)
+        self.new = Button(self,text="Couleurs joueur2",command=self.Parameter_pad2)
         self.new.grid(column=3,row=4,sticky="NE")
 
-        self.new= Button(self,text="Balle",command=Parameters_ball)
+        self.new = Button(self,text="Balle",command=self.Parameter_ball)
         self.new.grid(column=2,row=4)
+
+    def Parameter_pad1(self):
+
+        self.color = ["red","green","blue","white","yellow","purple"]
+        self.color_al = choice(self.color)
+        print (self.color_al)
+        return self.color_al
+
+    def Parameter_pad2(self):
+
+        self.color = ["red","green","blue","white","yellow","purple"]
+        self.color_al = choice(self.color)
+        print (self.color_al)
+        return self.color_al
+
+    def Parameter_ball(self):
+
+        self.color = ["red","green","blue","white","yellow","purple"]
+        self.color_al = choice(self.color)
+        print (self.color_al)
+        return self.color_al
 
     def new_game(self):
         if self.flag == 0 :
@@ -61,6 +55,7 @@ class Fenetre(Tk):
 
 class Pad:
     def __init__(self,canvas,flag):
+        self.Fenetre = Fenetre
         self.canvas = canvas
         self.flag = flag
         self.height = canvas.winfo_height()
@@ -68,20 +63,25 @@ class Pad:
         self.x1,self.y1 = 10,self.height/2-30
         self.x2,self.y2 = self.width-25,self.height/2-30
                 
-        self.Pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+60,fill=color_pad(2))
-        self.Pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+60,fill=color_pad(3))
+        
+        self.Pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+60,fill="blue") 
+        self.Pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+60,fill="blue")
+        
+        canvas.bind_all("<Up>",self.move_up)
+        canvas.bind_all("<Down>", self.move_down)
+        canvas.bind_all("<z>",self.move_up)
+        canvas.bind_all("<s>", self.move_down)
 
-        canvas.bind_all("<Up>",self.mouv_up)
-        canvas.bind_all("<Down>", self.mouv_down)
+        
         self.dy2 = 25
         self.ia()
 
-    def mouv_up(self,event):
+    def move_up(self,event):
         if self.y1>5 :
             self.y1=self.y1-10
             self.canvas.coords(self.Pad1,self.x1,self.y1,self.x1+15,self.y1+60)
             
-    def mouv_down(self,event):
+    def move_down(self,event):
         if self.y1+60<(self.height-5):
             self.y1=self.y1+10
             self.canvas.coords(self.Pad1,self.x1,self.y1,self.x1+15,self.y1+60)
@@ -107,7 +107,7 @@ class Ball:
         self.flag = flag
         self.x1,self.y1 = self.width/2,self.height/2
         self.dx,self.dy = 30,30
-        self.Ball = canvas.create_oval(self.x1, self.y1, self.x1+15, self.y1+15, width=2, fill=color_pad(2))
+        self.Ball = canvas.create_oval(self.x1, self.y1, self.x1+15, self.y1+15, width=2, fill="blue")
         self.pointA, self.pointB = 0,0
         
         self.ready()
@@ -159,6 +159,17 @@ class Ball:
             if self.flag > 0:
                 self.canvas.after(40,self.move)
 
+class Bonus:
+    def __init__(self,canvas,width=600, height=400):
+        self.canvas = canvas
+        self.height = canvas.winfo_height()
+        self.width = canvas.winfo_width()
+        self.pointA, self.pointB = 0,0
+        self.px = randrange(5, 400)
+        self.py = randrange(5, 400)
+    
+    def summon(self):
+        self.Bonus = canvas.create_oval(self.x1, self.y1, self.x1+15, self.y1+15, width=2, fill=green)
         
 
 if __name__ == "__main__":

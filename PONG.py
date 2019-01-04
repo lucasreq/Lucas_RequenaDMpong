@@ -169,7 +169,7 @@ class Ball:
                 self.canvas.after(70,self.move)
 
 class Bonus:
-    def __init__(self,canvas,width=400, height=400):
+    def __init__(self,canvas,width=600, height=400):
         self.canvas = canvas
         self.x1,self.y1 = self.width/2,self.height/2
         self.flag = flag 

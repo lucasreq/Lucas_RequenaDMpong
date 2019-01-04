@@ -177,10 +177,23 @@ class Bonus:
         self.py = randrange(5, 400)
     
     def summon(self):
-        self.Bonus = canvas.create_oval(self.x1, self.y1, self.x1+15, self.y1+15, width=2, fill="green")
+        self.n = 0
+        if n > 1:
+            pass
+        else:
+            self.bonus_ballg = canvas.create_oval(self.px, self.py, self.px+5, self.py+5, width=2,outline="green", fill="green")
+            self.n += 1
+
+        def bonus_g(self):
+            if self.px and self.py == self.pad.x1 and self.pad.y1:
+                self.pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
+            elif self.px and self.py == self.pad.x2 and self.pad.y2:
+                self.pad.pad2 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
+
+        
+
 
     schedule.every(10).seconds.do(summon)
-        
         
 
 if __name__ == "__main__":

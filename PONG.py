@@ -1,5 +1,7 @@
 from tkinter import *
 from random import *
+import schedule
+import time
    
 
 def Parameters_bouton():
@@ -35,12 +37,21 @@ class Window(Tk):
 
         self.new = Button(self,text="Balle",command=Parameters_bouton)
         self.new.grid(column=2,row=4)
+
+        self.can.create_line(width/2,0, width/2, height, fill="white",dash=(2,2), width=10)
+
+        self.can.create_line(4,0,4,height+5, fill="blue", width=4)
+        self.can.create_line(width,0,width,height+5, fill="red", width=4)
+        
+        
+        
     
     def new_game(self):
         if self.flag == 0 :
             self.flag = 1
             self.pads = Pad(self.can,self.flag)
             self.ball = Ball(self.can,self.pads,self.flag)
+            self.bonus = Bonus(self.can, self.flag)
             
 
 class Pad:
@@ -53,13 +64,13 @@ class Pad:
         self.x2,self.y2 = self.width-25,self.height/2-30
                 
         
-        self.Pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+60,fill=Parameters_fill()) 
-        self.Pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+60,fill=Parameters_fill())
+        self.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+60,fill=Parameters_fill()) 
+        self.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+60,fill=Parameters_fill())
         
-        canvas.bind_all("<Up>",self.move_up1)
-        canvas.bind_all("<Down>", self.move_down1)
-        canvas.bind_all("<z>",self.move_up2)
-        canvas.bind_all("<s>", self.move_down2)
+        canvas.bind_all("<Up>",self.move_up2)
+        canvas.bind_all("<Down>", self.move_down2)
+        canvas.bind_all("<z>",self.move_up1)
+        canvas.bind_all("<s>", self.move_down1)
 
         
         self.dy2 = 25
@@ -68,22 +79,34 @@ class Pad:
     def move_up1(self,event):
         if self.y1>5 :
             self.y1=self.y1-10
-            self.canvas.coords(self.Pad1,self.x1,self.y1,self.x1+15,self.y1+60)
+            self.canvas.coords(self.pad1,self.x1,self.y1,self.x1+15,self.y1+60)
             
     def move_down1(self,event):
         if self.y1+60<(self.height-5):
             self.y1=self.y1+10
-            self.canvas.coords(self.Pad1,self.x1,self.y1,self.x1+15,self.y1+60)
+            self.canvas.coords(self.pad1,self.x1,self.y1,self.x1+15,self.y1+60)
 
     def move_up2(self,event):
         if self.y2>5 :
             self.y2=self.y2-10
-            self.canvas.coords(self.Pad2,self.x2,self.y2,self.x2+15,self.y2+60)
+            self.canvas.coords(self.pad2,self.x2,self.y2,self.x2+15,self.y2+60)
             
     def move_down2(self,event):
         if self.y2+60<(self.height-5):
             self.y2=self.y2+10
-            self.canvas.coords(self.Pad2,self.x2,self.y2,self.x2+15,self.y2+60)
+            self.canvas.coords(self.pad2,self.x2,self.y2,self.x2+15,self.y2+60)
+
+    # def ia (self):
+    #     self.y2=self.y2 + self.dy2
+    #     if self.y2+60 > self.height-10 :
+    #         self.dy2=-50
+            
+        # if self.y2 < 5 :
+        #     self.dy2=50
+            
+        # self.canvas.coords(self.Pad2,self.x2,self.y2,self.x2+15,self.y2+60)
+        # if self.flag > 0:
+        #     self.canvas.after(70,self.ia)
 
 class Ball:
     def __init__(self,canvas,pad,flag):
@@ -92,11 +115,10 @@ class Ball:
         self.height = canvas.winfo_height()
         self.width = canvas.winfo_width()
         self.flag = flag
-        self.x1,self.y1 = self.width/2,self.height/2
+        self.x1,self.y1 = self.width/2.1,self.height/2
         self.dx,self.dy = 30,30
         self.Ball = canvas.create_oval(self.x1, self.y1, self.x1+20, self.y1+20, width=2, fill=Parameters_fill())
         self.pointA, self.pointB = 0,0
-        
         self.ready()
     
     def ready(self):
@@ -136,6 +158,7 @@ class Ball:
                 self.pointB = self.pointB+1
                 self.ready()
             
+        
             if self.x1+20 > self.width:
                 self.starter=0
                 self.pointA = self.pointA+1
@@ -143,19 +166,52 @@ class Ball:
 
             self.canvas.coords(self.Ball,self.x1,self.y1,self.x1+20,self.y1+20)
             if self.flag > 0:
-                self.canvas.after(50,self.move)
+                self.canvas.after(70,self.move)
 
 class Bonus:
     def __init__(self,canvas,width=400, height=400):
         self.canvas = canvas
-        self.height = canvas.winfo_height()
-        self.width = canvas.winfo_width()
-        self.pointA, self.pointB = 0,0
-        self.px = randrange(5, 400)
-        self.py = randrange(5, 400)
+        self.x1,self.y1 = self.width/2,self.height/2
+        self.flag = flag 
     
     def summon(self):
-        self.Bonus = canvas.create_oval(self.x1, self.y1, self.x1+15, self.y1+15, width=2, fill=green)
+        self.n = choice[1,2]
+        if self.n == 1:
+            self.Bonus_ballg = canvas.create_oval(self.x1, self.y1, self.x1+5, self.y1+5, width=2,outline="green", fill="green")
+
+            def bonus_g(self):
+                if self.x1 and self.y1 == self.pad.x1 and self.pad.y1:
+                    self.pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
+                else:
+                    pass
+
+                if self.x1 and self.y1 == self.pad.x2 and self.pad.y2:
+                    self.pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+80,fill=Parameters_fill())
+                else:
+                    pass
+            time.sleep(20)
+            n = 0
+
+        if self.n == 2:
+            self.Bonus_ballr = canvas.create_oval(self.x1, self.y1, self.x1+5, self.y1+5, width=2,outline="red", fill="red")
+
+            def bonus_r(self):
+                if self.x1 and self.y1 == self.pad.x1 and self.pad.y1:
+                    self.pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+30,fill=Parameters_fill())
+                else:
+                    pass
+
+                if self.x1 and self.y1 == self.pad.x2 and self.pad.y2:
+                    self.pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+30,fill=Parameters_fill())
+                else:
+                    pass
+            time.sleep(10)
+            n = 0
+
+    
+    
+    schedule.every(10).seconds.do(summon)
+
         
 
 if __name__ == "__main__":

@@ -51,6 +51,7 @@ class Window(Tk):
             self.flag = 1
             self.pads = Pad(self.can,self.flag)
             self.ball = Ball(self.can,self.pads,self.flag)
+            self.bonus = Bonus(self.can,self.flag)
             
 
 class Pad:
@@ -176,7 +177,7 @@ class Bonus:
         self.x1,self.y1 = self.width/2,self.height/2
         self.flag = flag 
     
-    def summon(self):
+    def summon(self,canvas):
         self.n = random.choice[1,2,3]
         if self.n == 1:
             self.Bonus_ballg = canvas.create_oval(self.x1, self.y1, self.x1+5, self.y1+5, width=2,outline="green", fill="green")
@@ -185,25 +186,29 @@ class Bonus:
         elif self.n == 3:
             self.Bonus_bally = canvas.create_oval(self.x1, self.y1, self.x1+5, self.y1+5, width=2,outline="yellow", fill="yellow")
         
-        def bonus(self):
+        def bonus(self,Ball):
             if self.x1 and self.y1 == self.pad.x1 and self.pad.y1:
                 self.pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
+                self.summon.remove()
             else:
                 pass
 
             if self.x1 and self.y1 == self.pad.x2 and self.pad.y2:
                 self.pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+80,fill=Parameters_fill())
+                self.summon.remove()
             else:
                 pass
         
         def malus(self):
             if self.x1 and self.y1 == self.pad.x1 and self.pad.y1:
                 self.pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+30,fill=Parameters_fill())
+                self.summon.remove()
             else:
                 pass
 
             if self.x1 and self.y1 == self.pad.x2 and self.pad.y2:
                 self.pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+30,fill=Parameters_fill())
+                self.summon.remove()
             else:
                 pass
         
@@ -211,17 +216,22 @@ class Bonus:
             if self.x1 and self.y1 == self.pad.x1 and self.pad.y1:
                 self.Pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
                 self.Pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+80,fill=Parameters_fill())
+                self.summon.remove()
 
             elif self.x1 and self.y1 == self.pad.x2 and self.pad.y2:
                 self.Pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+80,fill=Parameters_fill())
                 self.Pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
+                self.summon.remove()
+
+            else:
+                pass
 
         if self.n == 1:
-            bonus(self)
+            self.bonus()
         elif self.n == 2:
-            malus(self)
+            self.malus()
         elif self.n ==3:
-            malus_share(self)
+            self.malus_share()
         
 
 if __name__ == "__main__":

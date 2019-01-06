@@ -185,6 +185,8 @@ class Bonus:
             self.Bonus_ballr = canvas.create_oval(self.px, self.py, self.px+10, self.py+10, width=2,outline="red", fill="black")
         elif self.n == 3:
             self.Bonus_bally = canvas.create_oval(self.px, self.py, self.px+10, self.py+10, width=2,outline="yellow", fill="black")
+
+        self.summon_effect()
         
     def bonus(self,Ball,Pad):
 
@@ -235,15 +237,17 @@ class Bonus:
         else:
             pass
 
-    if self.n == 1:
-        self.bonus()
-    elif self.n == 2:
-        self.malus()
-    elif self.n ==3:
-        self.malus_share()
+
+    def summon_effect(self):
+        if self.n == 1:
+            self.bonus()
+        elif self.n == 2:
+            self.malus()
+        elif self.n ==3:
+            self.malus_share()
     
-    if self.flag > 0:
-        self.canvas.after(30,self.summon)
+        if self.flag > 0:
+            self.canvas.after(30,self.summon)
         
 
 if __name__ == "__main__":

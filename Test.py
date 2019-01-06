@@ -174,7 +174,7 @@ class Bonus:
         self.height = canvas.winfo_height()
         self.width = canvas.winfo_width()
         self.canvas = canvas
-        self.x1,self.y1 = self.width/2,self.height/2
+        self.px,self.py = self.width/2,self.height/2
         self.flag = flag 
     
     def summon(self,canvas):
@@ -186,39 +186,40 @@ class Bonus:
         elif self.n == 3:
             self.Bonus_bally = canvas.create_oval(self.x1, self.y1, self.x1+5, self.y1+5, width=2,outline="yellow", fill="yellow")
         
-        def bonus(self,Ball):
-            if self.x1 and self.y1 == self.pad.x1 and self.pad.y1:
-                self.pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
-                self.summon.remove()
-            else:
-                pass
+        def bonus(self,Ball,Pad):
 
-            if self.x1 and self.y1 == self.pad.x2 and self.pad.y2:
-                self.pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+80,fill=Parameters_fill())
-                self.summon.remove()
-            else:
-                pass
+                if self.px and self.py == self.Pad.x1 and self.Pad.y1:
+                    self.Pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
+                    self.summon.remove()
+                else:
+                    pass
+
+                if self.px and self.py == self.Pad.x2 and self.Pad.y2:
+                    self.Pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+80,fill=Parameters_fill())
+                    self.summon.remove()
+                else:
+                    pass
         
         def malus(self):
-            if self.x1 and self.y1 == self.pad.x1 and self.pad.y1:
-                self.pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+30,fill=Parameters_fill())
+            if self.px and self.py == self.Pad.x1 and self.Pad.y1:
+                self.Pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+30,fill=Parameters_fill())
                 self.summon.remove()
             else:
                 pass
 
-            if self.x1 and self.y1 == self.pad.x2 and self.pad.y2:
-                self.pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+30,fill=Parameters_fill())
+            if self.px and self.py == self.pad.x2 and self.pad.y2:
+                self.Pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+30,fill=Parameters_fill())
                 self.summon.remove()
             else:
                 pass
         
         def malus_share(self):
-            if self.x1 and self.y1 == self.pad.x1 and self.pad.y1:
+            if self.px and self.py == self.Pad.x1 and self.Pad.y1:
                 self.Pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
                 self.Pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+80,fill=Parameters_fill())
                 self.summon.remove()
 
-            elif self.x1 and self.y1 == self.pad.x2 and self.pad.y2:
+            elif self.px and self.py == self.Pad.x2 and self.Pad.y2:
                 self.Pad.pad2 = canvas.create_rectangle(self.x2,self.y2,self.x2+15,self.y2+80,fill=Parameters_fill())
                 self.Pad.pad1 = canvas.create_rectangle(self.x1,self.y1,self.x1+15,self.y1+80,fill=Parameters_fill())
                 self.summon.remove()
@@ -232,6 +233,9 @@ class Bonus:
             self.malus()
         elif self.n ==3:
             self.malus_share()
+        
+        if self.flag > 0:
+            self.canvas.after(30,self.summon)
         
 
 if __name__ == "__main__":

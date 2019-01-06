@@ -51,7 +51,8 @@ class Window(Tk):
             self.flag = 1
             self.pads = Pad(self.can,self.flag)
             self.ball = Ball(self.can,self.pads,self.flag)
-            self.bonus = Bonus.summon(self.can,self.flag)
+            self.bonus = Bonus(self.can,self.flag)
+            self.bonus.summon(self.can)
             
 
 class Pad:
@@ -174,17 +175,17 @@ class Bonus:
         self.height = canvas.winfo_height()
         self.width = canvas.winfo_width()
         self.canvas = canvas
-        self.px,self.py = self.width/2,self.height/2
+        self.px,self.py = self.width/2.05,self.height/1.95
         self.flag = flag 
     
     def summon(self,canvas):
-        self.n = random.choice[1,2,3]
+        self.n = randrange(1,3)
         if self.n == 1:
-            self.Bonus_ballg = canvas.create_oval(self.x1, self.y1, self.x1+5, self.y1+5, width=2,outline="green", fill="green")
+            self.Bonus_ballg = canvas.create_oval(self.px, self.py, self.px+10, self.py+10, width=2,outline="green", fill="black")
         elif self.n == 2:
-            self.Bonus_ballr = canvas.create_oval(self.x1, self.y1, self.x1+5, self.y1+5, width=2,outline="red", fill="red")
+            self.Bonus_ballr = canvas.create_oval(self.px, self.py, self.px+10, self.py+10, width=2,outline="red", fill="black")
         elif self.n == 3:
-            self.Bonus_bally = canvas.create_oval(self.x1, self.y1, self.x1+5, self.y1+5, width=2,outline="yellow", fill="yellow")
+            self.Bonus_bally = canvas.create_oval(self.px, self.py, self.px+10, self.py+10, width=2,outline="yellow", fill="black")
         
 
 if __name__ == "__main__":

@@ -50,6 +50,7 @@ class Window(Tk):
         if self.flag == 0 :
             self.flag = 1
             self.pads = Pad(self.can,self.flag)
+            self.ball = Ball(self.can,self.pads,self.flag)
             self.bonus = Bonus(self.can,self.flag)
             self.bonus.summon(self.can)
             
